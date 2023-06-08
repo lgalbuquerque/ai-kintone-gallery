@@ -14,7 +14,15 @@ import { Spinner } from 'spin.js';
 
     //The text we will give to the Open AI API
     const promptBuilder = () => {
-      // TODO
+      let promptString = `A cute ${event.record.animal.value} who looks ${event.record.emotion.value} holding a ${event.record.random.value} wearing `;
+      let clothesArray = event.record.clothes.value;
+      clothesArray.forEach((option, index) => {
+        if (index == 0) {
+          promptString += `${option}`;
+        } else {
+          promptString = promptString + ` and ${option}`;
+        }
+      })
       return promptString
     }
 
@@ -65,17 +73,18 @@ import { Spinner } from 'spin.js';
       var spinner = new Spinner(opts).spin();
       spinnerTarget.appendChild(spinner.el);
       // We need to call our Open AI API POST function with request's body... 🧐
+      generateImages(postBody).then( async (response)) => {
+        let timestamp = result.created;
+        const date = new Date(uniTimeStamp * 1000)
+        const isoDateString = date.toISOString();
 
-      // TODO: TIME STAMP
-      // The OpenAI API gives us a response with a timestamp, and an image in base64 format
-      // Let's format the timestamp from unix time to a local timezone string.
-
-      // TODO:
-      // We convert the base64 to a blob.
-      // And designate it as a file.
-      // Then we want to update our record with our new picture!
-
-      // When the async api call is finished, reload the page to see our new image.
+        let imageBlob = await b64toBlob(result.data[0].b64_json)
+        let file = new File([imageBlob], "test.png", { type: 'image/png', lastModified: isoDateString })
+        await updateKintone(event.recordId, file, isoDateString)
+      }).finally(() => {
+        // When the async api call is finished, reload the page to see our new image.
+        window.location.reload();
+      })
     };
     // Set button and Spinner on the Blank Space field
     kintone.app.record.getSpaceElement('generateButton').appendChild(generateButton);
