@@ -1,7 +1,0 @@
-KINTONE_BASE_URL="https://luiz-g-albuquerque.kintone.com"
-KINTONE_USERNAME="luis_g_albuquerque@hotmail.com"
-KINTONE_PASSWORD="Kintone301195!"
-VITE_KINTONE_SUBDOMAIN="devevents"
-VITE_KINTONE_TOKEN="wnnF1CnoCLAtd4d6oaSyXRxEFP7q58cKCb9qmqg4"
-VITE_KINTONE_APPID="1"
-VITE_OPEN_AI_TOKEN="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"
